@@ -1,0 +1,57 @@
+services:
+  php:
+    container_name: vws_pdlamp_php
+    build:
+      context: ./docker/php
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      PHP_IDE_CONFIG: "serverName=pd-lamp"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - vws-pd-lamp
+
+  nginx:
+    container_name: vws_pdlamp_nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - php
+    networks:
+      - vws-pd-lamp
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mysql:
+    container_name: vws_pdlamp_mysql
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: app
+      MYSQL_PASSWORD: secret
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "33060:3306"
+    networks:
+      - vws-pd-lamp
+
+volumes:
+  db_data:
+
+networks:
+  vws-pd-lamp:
+    name: network_vws-pd-lamp
+    driver: bridge
