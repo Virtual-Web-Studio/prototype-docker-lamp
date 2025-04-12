@@ -1,4 +1,7 @@
-.PHONY: up down restart logs nginx-logs
+.PHONY: build up down restart logs nginx-logs
+
+build:
+	docker-compose build --no-cache
 
 up:
 	docker-compose up -d
