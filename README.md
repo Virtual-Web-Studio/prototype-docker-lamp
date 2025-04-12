@@ -38,7 +38,18 @@ https://localhost *(self-signed certificate)*
 └── LICENSE
 ```
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history and notable changes.
+
+## Contributing
+
+We welcome contributions from the community!
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to get started.
+
 ## License
 
-This project is licensed under the [MIT License](LICENSE)  
+This project is licensed under the MIT License  
 © 2025 Virtual Web Studio
+
